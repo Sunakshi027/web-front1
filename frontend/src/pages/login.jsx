@@ -1,65 +1,322 @@
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 const Login = () => {
-  const [isLogin, setIsLogin] = useState(false);
-  const navigate = useNavigate();
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const [isSignUp, setIsSignUp] = useState(false);
 
-  const onSubmit = (data) => console.log(data);
+  const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#4F46E5] via-[#10B981] to-[#F59E0B] p-6">
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8 border border-[#4F46E5]">
-        <h2 className="text-3xl font-bold text-center text-[#4F46E5] mb-6">
-          {isLogin ? "Create Account" : "Welcome Back"}
-        </h2>
+    <div className="
+      min-h-screen
+      flex
+      items-center
+      justify-center
+      bg-gray-100
+      px-5
+      py-8
+    ">
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {isLogin && (
-            <input
-              type="text"
-              {...register("fullName",{required:true})}
-              placeholder="Full Name"
-              className="w-full px-4 py-3 rounded-xl border border-[#6B7280] outline-none focus:ring-2 focus:ring-[#4F46E5]"
-            />
+      <div className="
+        w-full
+        max-w-md
+        bg-white
+        rounded-2xl
+        border
+        border-gray-200
+        shadow-lg
+        p-7
+        sm:p-8
+        transition-all
+        duration-300
+        hover:shadow-xl
+      ">
+
+        {/* Logo / Icon */}
+        <div className="
+          flex
+          justify-center
+          mb-5
+        ">
+          <div className="
+            w-14
+            h-14
+            rounded-full
+            bg-blue-50
+            flex
+            items-center
+            justify-center
+            transition-all
+            duration-300
+            hover:scale-105
+            hover:bg-blue-100
+          ">
+            <span className="text-2xl">
+              💬
+            </span>
+          </div>
+        </div>
+
+
+        {/* Heading */}
+        <div className="text-center mb-7">
+
+          <h2 className="
+            text-2xl
+            font-semibold
+            text-gray-800
+          ">
+            {isSignUp ? "Create Account" : "Welcome Back"}
+          </h2>
+
+          <p className="
+            text-sm
+            text-gray-500
+            mt-2
+          ">
+            {isSignUp
+              ? "Create your account to start chatting"
+              : "Login to continue to WebChat"
+            }
+          </p>
+
+        </div>
+
+
+        {/* Form */}
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-4"
+        >
+
+          {/* Full Name */}
+          {isSignUp && (
+            <div>
+
+              <label className="
+                block
+                text-sm
+                font-medium
+                text-gray-700
+                mb-1.5
+              ">
+                Full Name
+              </label>
+
+              <input
+                type="text"
+                placeholder="Enter your full name"
+                {...register("fullName", {
+                  required: "Full name is required"
+                })}
+                className="
+                  w-full
+                  px-4
+                  py-3
+                  rounded-lg
+                  border
+                  border-gray-300
+                  bg-white
+                  text-sm
+                  text-gray-700
+                  outline-none
+                  transition-all
+                  duration-300
+                  placeholder:text-gray-400
+                  hover:border-gray-400
+                  focus:border-blue-500
+                  focus:ring-2
+                  focus:ring-blue-100
+                "
+              />
+
+              {errors.fullName && (
+                <p className="text-xs text-red-500 mt-1">
+                  {errors.fullName.message}
+                </p>
+              )}
+
+            </div>
           )}
 
-          <input
-            type="email"
-            {...register("email",{required:true})}
-            placeholder="Email"
-            className="w-full px-4 py-3 rounded-xl border border-[#6B7280] outline-none focus:ring-2 focus:ring-[#4F46E5]"
-          />
 
-          <input
-            type="password"
-            {...register("password",{required:true})}
-            placeholder="Password"
-            className="w-full px-4 py-3 rounded-xl border border-[#6B7280] outline-none focus:ring-2 focus:ring-[#4F46E5]"
-          />
+          {/* Email */}
+          <div>
 
+            <label className="
+              block
+              text-sm
+              font-medium
+              text-gray-700
+              mb-1.5
+            ">
+              Email
+            </label>
+
+            <input
+              type="email"
+              placeholder="Enter your email"
+              {...register("email", {
+                required: "Email is required"
+              })}
+              className="
+                w-full
+                px-4
+                py-3
+                rounded-lg
+                border
+                border-gray-300
+                bg-white
+                text-sm
+                text-gray-700
+                outline-none
+                transition-all
+                duration-300
+                placeholder:text-gray-400
+                hover:border-gray-400
+                focus:border-blue-500
+                focus:ring-2
+                focus:ring-blue-100
+              "
+            />
+
+            {errors.email && (
+              <p className="text-xs text-red-500 mt-1">
+                {errors.email.message}
+              </p>
+            )}
+
+          </div>
+
+
+          {/* Password */}
+          <div>
+
+            <label className="
+              block
+              text-sm
+              font-medium
+              text-gray-700
+              mb-1.5
+            ">
+              Password
+            </label>
+
+            <input
+              type="password"
+              placeholder="Enter your password"
+              {...register("password", {
+                required: "Password is required"
+              })}
+              className="
+                w-full
+                px-4
+                py-3
+                rounded-lg
+                border
+                border-gray-300
+                bg-white
+                text-sm
+                text-gray-700
+                outline-none
+                transition-all
+                duration-300
+                placeholder:text-gray-400
+                hover:border-gray-400
+                focus:border-blue-500
+                focus:ring-2
+                focus:ring-blue-100
+              "
+            />
+
+            {errors.password && (
+              <p className="text-xs text-red-500 mt-1">
+                {errors.password.message}
+              </p>
+            )}
+
+          </div>
+
+
+          {/* Submit */}
           <button
             type="submit"
-            className="w-full py-3 rounded-full font-semibold text-white bg-gradient-to-r from-[#4F46E5] to-[#F59E0B] hover:opacity-90 shadow-lg transition-all duration-300"
+            className="
+              w-full
+              py-3
+              mt-2
+              rounded-lg
+              bg-blue-600
+              text-white
+              text-sm
+              font-semibold
+              shadow-sm
+              hover:bg-blue-700
+              hover:shadow-md
+              hover:-translate-y-0.5
+              active:translate-y-0
+              active:scale-[0.98]
+              transition-all
+              duration-300
+            "
           >
-            {isLogin ? "Sign Up" : "Login"}
+            {isSignUp ? "Create Account" : "Login"}
           </button>
+
         </form>
 
-        <p className="text-center text-[#6B7280] mt-6">
-          {isLogin ? "Already have an account?" : "Don't have an account?"}
-          <span
-            className="ml-2 text-[#4F46E5] font-medium cursor-pointer hover:underline"
-            onClick={() => setIsLogin(!isLogin)}
-          >
-            {isLogin ? "Login" : "Sign Up"}
+
+        {/* Switch Login / Signup */}
+        <div className="
+          flex
+          items-center
+          justify-center
+          gap-1
+          mt-6
+          text-sm
+        ">
+
+          <span className="text-gray-500">
+            {isSignUp
+              ? "Already have an account?"
+              : "Don't have an account?"
+            }
           </span>
-        </p>
+
+          <button
+            type="button"
+            onClick={() => setIsSignUp(!isSignUp)}
+            className="
+              text-blue-600
+              font-medium
+              hover:text-blue-700
+              hover:underline
+              transition-all
+              duration-200
+            "
+          >
+            {isSignUp ? "Login" : "Sign Up"}
+          </button>
+
+        </div>
+
       </div>
+
     </div>
   );
 };
 
 export default Login;
+

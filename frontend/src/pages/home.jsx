@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import Sidebar from '../compoments/sidebar';
-import Chat from '../compoments/chat';
-import Rightsidebar from '../compoments/rightsidebar';
-import { useNavigate } from 'react-router-dom';
-import { authCheck } from './auth';
+import React, { useState, useEffect } from "react";
+import Sidebar from "../compoments/sidebar";
+import Chat from "../compoments/chat";
+import Rightsidebar from "../compoments/rightsidebar";
+import { useNavigate } from "react-router-dom";
+import { authCheck } from "./auth";
 
 const Home = () => {
   const [selectedUser, setSelectedUser] = useState(null);
@@ -17,32 +17,88 @@ const Home = () => {
         localStorage.removeItem("token");
         navigate("/");
       });
-  }, []);
+  }, [navigate]);
 
   return (
-    <div className="w-full h-screen bg-gradient-to-br from-[#355C7D] to-[#6C5B7B] flex justify-center items-center p-4">
-      
-      <div className="w-full max-w-[1400px] h-full rounded-3xl shadow-2xl bg-gradient-to-br from-[#F8B195] via-[#F67280] to-[#C06C84] overflow-hidden grid
-        grid-cols-1
-        md:grid-cols-[1fr_1.5fr]
-        xl:grid-cols-[1fr_2fr_1fr]
-        gap-4
-        transition-all duration-500">
+    <div className="w-full min-h-screen bg-gray-100 flex items-center justify-center">
 
-        {/* Sidebar */}
-        <div className="bg-gradient-to-b from-[#F8B195] via-[#F67280] to-[#C06C84] shadow-inner rounded-l-3xl overflow-hidden border-r border-[#C06C84]">
-          <Sidebar selectedUser={selectedUser} setSelectedUser={setSelectedUser} />
+      <div
+        className="
+          w-full
+          h-screen
+          bg-white
+          overflow-hidden
+
+          md:m-3
+          md:h-[calc(100vh-24px)]
+          md:rounded-2xl
+          md:border
+          md:border-gray-200
+          md:shadow-lg
+
+          xl:max-w-[1500px]
+
+          grid
+          grid-cols-1
+          md:grid-cols-[260px_1fr]
+          xl:grid-cols-[280px_1fr_280px]
+        "
+      >
+
+        {/* ================= SIDEBAR ================= */}
+        <div
+          className={`
+            bg-white
+            border-r
+            border-gray-200
+            overflow-hidden
+            min-w-0
+
+            ${selectedUser ? "hidden md:block" : "block"}
+          `}
+        >
+          <Sidebar
+            selectedUser={selectedUser}
+            setSelectedUser={setSelectedUser}
+          />
         </div>
 
-        {/* Chat */}
-        <div className="bg-gradient-to-b from-[#F8B195] via-[#F67280] to-[#C06C84] shadow-inner overflow-hidden rounded-none border-x border-[#C06C84]">
-          <Chat selectedUser={selectedUser} setSelectedUser={setSelectedUser} />
+
+        {/* ================= CHAT ================= */}
+        <div
+          className={`
+            bg-white
+            overflow-hidden
+            min-w-0
+            h-full
+
+            ${selectedUser ? "block" : "hidden md:block"}
+          `}
+        >
+          <Chat
+            selectedUser={selectedUser}
+            setSelectedUser={setSelectedUser}
+          />
         </div>
 
-        {/* Right Sidebar */}
+
+        {/* ================= RIGHT SIDEBAR ================= */}
         {selectedUser && (
-          <div className="bg-gradient-to-b from-[#C06C84] via-[#6C5B7B] to-[#355C7D] shadow-inner rounded-r-3xl overflow-hidden border-l border-[#355C7D]">
-            <Rightsidebar selectedUser={selectedUser} setSelectedUser={setSelectedUser} />
+          <div
+            className="
+              hidden
+              xl:block
+              bg-gray-50
+              border-l
+              border-gray-200
+              overflow-hidden
+              min-w-0
+            "
+          >
+            <Rightsidebar
+              selectedUser={selectedUser}
+              setSelectedUser={setSelectedUser}
+            />
           </div>
         )}
 

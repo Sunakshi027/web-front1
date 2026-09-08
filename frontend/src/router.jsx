@@ -10,12 +10,8 @@ const Router=() =>{
        <Routes>
 
       <Route path="/" element={<Home/>}/>
-      
       <Route path="profile" element={<Profile/>}/>
-      
       <Route path="login" element={<Login/>}/>
-
-
        </Routes>
 
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import logo from "../assets/image.png";
 import menu from '../assets/menu.png';
 import search from "../assets/searchbar11.webp";
@@ -10,49 +11,354 @@ const Sidebar = ({ selectedUser, setSelectedUser }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="h-full w-full p-5 bg-white rounded-2xl shadow-lg overflow-y-auto">
-      
-      {/* Logo & Menu */}
-      <div className="flex items-center justify-between mb-6">
-        <img src={logo} alt="logo" className="w-20 h-auto" />
+    <div className="
+      h-full
+      w-full
+      bg-white
+      flex flex-col
+      overflow-hidden
+    ">
+
+      {/* ================= HEADER ================= */}
+      <div className="
+        flex
+        items-center
+        justify-between
+        px-5
+        py-4
+        border-b border-gray-200
+      ">
+
+        {/* Logo */}
+        <img
+          src={logo}
+          alt="logo"
+          className="
+            w-20
+            h-auto
+            object-contain
+            transition-transform duration-300
+            hover:scale-105
+          "
+        />
+
+        {/* Menu */}
         <div className="relative group">
-          <img src={menu} alt="menu" className="w-8 h-8 p-1 rounded-full cursor-pointer bg-[#6C63FF] hover:bg-[#FF6584] transition-all duration-300"/>
-          <div className="absolute top-full right-0 w-36 bg-white border border-gray-200 rounded-lg shadow-md p-3 hidden group-hover:block z-50">
-            <p className="cursor-pointer text-sm py-1 hover:text-[#6C63FF]" onClick={() => navigate("/profile")}>Edit Profile</p>
-            <hr className="border-gray-300 my-2"/>
-            <p className="cursor-pointer text-sm py-1 hover:text-[#FF6584]" onClick={() => navigate("/login")}>Log out</p>
+
+          <button className="
+            w-9 h-9
+            rounded-full
+            flex items-center justify-center
+            bg-gray-100
+            hover:bg-gray-200
+            transition-all duration-300
+            active:scale-90
+          ">
+            <img
+              src={menu}
+              alt="menu"
+              className="w-5 h-5 object-contain"
+            />
+          </button>
+
+          {/* Dropdown */}
+          <div className="
+            absolute
+            right-0
+            top-11
+            w-40
+            bg-white
+            border border-gray-200
+            rounded-xl
+            shadow-xl
+            p-2
+            hidden
+            group-hover:block
+            z-50
+          ">
+
+            <button
+              onClick={() => navigate("/profile")}
+              className="
+                w-full
+                text-left
+                px-3
+                py-2.5
+                text-sm
+                text-gray-700
+                rounded-lg
+                hover:bg-gray-100
+                hover:text-blue-600
+                transition-all duration-200
+              "
+            >
+              Edit Profile
+            </button>
+
+            <div className="h-px bg-gray-100 my-1"></div>
+
+            <button
+              onClick={() => {
+                localStorage.removeItem("token");
+                navigate("/login");
+              }}
+              className="
+                w-full
+                text-left
+                px-3
+                py-2.5
+                text-sm
+                text-red-500
+                rounded-lg
+                hover:bg-red-50
+                transition-all duration-200
+              "
+            >
+              Log out
+            </button>
+
           </div>
+
         </div>
+
       </div>
 
-      {/* Search */}
-      <div className="flex items-center gap-3 bg-gray-100 rounded-full p-2 mb-5">
-        <img src={search} alt="search" className="w-5 h-5"/>
-        <input type="text" placeholder="Search User..." className="bg-transparent outline-none text-[#2E2E2E] placeholder-[#757575] text-sm flex-1"/>
+
+      {/* ================= SEARCH ================= */}
+      <div className="px-5 pt-5 pb-3">
+
+        <div className="
+          flex
+          items-center
+          gap-3
+          px-4
+          py-2.5
+          bg-gray-100
+          rounded-xl
+          border border-transparent
+          transition-all duration-300
+          focus-within:bg-white
+          focus-within:border-blue-400
+          focus-within:ring-2
+          focus-within:ring-blue-100
+        ">
+
+          <img
+            src={search}
+            alt="search"
+            className="
+              w-5 h-5
+              object-contain
+              opacity-60
+            "
+          />
+
+          <input
+            type="text"
+            placeholder="Search conversations"
+            className="
+              flex-1
+              bg-transparent
+              outline-none
+              text-sm
+              text-gray-700
+              placeholder-gray-400
+            "
+          />
+
+        </div>
+
       </div>
 
-      {/* User List */}
-      <div className="flex flex-col gap-3">
-        {userDummyData.map((user, index) => {
-          const isSelected = selectedUser?.id === user.id;
-          return (
-            <div key={index} onClick={() => setSelectedUser(user)} 
-              className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all duration-300 ${
-                isSelected ? 'bg-[#6C63FF] text-white shadow-lg' : 'bg-gray-50 hover:bg-gray-100 text-[#2E2E2E]'
-              }`}>
-              <img src={user.profilePic || avtar} alt="avatar" className="w-12 h-12 rounded-full object-cover border-2 border-[#6C63FF]"/>
-              <div className="flex flex-col">
-                <p className="font-medium">{user.fullName}</p>
-                <span className={`text-xs font-semibold ${index < 3 ? 'text-green-500' : 'text-red-500'}`}>
-                  {index < 3 ? 'Online' : 'Offline'}
-                </span>
+
+      {/* ================= USER LIST ================= */}
+      <div className="
+        flex-1
+        overflow-y-auto
+        px-3
+        pb-4
+      ">
+
+        <p className="
+          px-2
+          py-2
+          text-xs
+          font-semibold
+          uppercase
+          tracking-wider
+          text-gray-400
+        ">
+          Messages
+        </p>
+
+        <div className="flex flex-col gap-1">
+
+          {userDummyData.map((user, index) => {
+
+            const isSelected = selectedUser?.id === user.id;
+            const isOnline = index < 3;
+
+            return (
+
+              <div
+                key={index}
+                onClick={() => setSelectedUser(user)}
+                className={`
+                  relative
+                  flex
+                  items-center
+                  gap-3
+                  px-3
+                  py-3
+                  rounded-xl
+                  cursor-pointer
+                  group
+                  transition-all
+                  duration-300
+
+                  ${
+                    isSelected
+                      ? `
+                        bg-blue-50
+                        border border-blue-100
+                      `
+                      : `
+                        border border-transparent
+                        hover:bg-gray-50
+                        hover:border-gray-100
+                      `
+                  }
+                `}
+              >
+
+                {/* Active indicator */}
+                {isSelected && (
+                  <span className="
+                    absolute
+                    left-0
+                    top-1/2
+                    -translate-y-1/2
+                    w-1
+                    h-8
+                    bg-blue-600
+                    rounded-r-full
+                  "></span>
+                )}
+
+
+                {/* Avatar */}
+                <div className="
+                  relative
+                  flex-shrink-0
+                ">
+
+                  <img
+                    src={user.profilePic || avtar}
+                    alt="avatar"
+                    className={`
+                      w-11
+                      h-11
+                      rounded-full
+                      object-cover
+                      transition-all
+                      duration-300
+
+                      ${
+                        isSelected
+                          ? "ring-2 ring-blue-500 ring-offset-2"
+                          : "group-hover:scale-105"
+                      }
+                    `}
+                  />
+
+                  {/* Online Dot */}
+                  <span
+                    className={`
+                      absolute
+                      bottom-0
+                      right-0
+                      w-3
+                      h-3
+                      rounded-full
+                      border-2
+                      border-white
+
+                      ${
+                        isOnline
+                          ? "bg-green-500"
+                          : "bg-gray-400"
+                      }
+                    `}
+                  ></span>
+
+                </div>
+
+
+                {/* User Info */}
+                <div className="min-w-0 flex-1">
+
+                  <div className="flex items-center justify-between gap-2">
+
+                    <p
+                      className={`
+                        font-medium
+                        text-sm
+                        truncate
+                        transition-colors
+                        duration-300
+
+                        ${
+                          isSelected
+                            ? "text-blue-700"
+                            : "text-gray-800 group-hover:text-blue-600"
+                        }
+                      `}
+                    >
+                      {user.fullName}
+                    </p>
+
+                    <span className="
+                      text-[10px]
+                      text-gray-400
+                      flex-shrink-0
+                    ">
+                      10:30
+                    </span>
+
+                  </div>
+
+
+                  <p
+                    className={`
+                      text-xs
+                      mt-1
+                      transition-colors
+                      duration-300
+
+                      ${
+                        isOnline
+                          ? "text-green-500"
+                          : "text-gray-400"
+                      }
+                    `}
+                  >
+                    {isOnline ? "Online" : "Offline"}
+                  </p>
+
+                </div>
+
               </div>
-            </div>
-          );
-        })}
+
+            );
+          })}
+
+        </div>
+
       </div>
+
     </div>
   );
 };
 
 export default Sidebar;
+
