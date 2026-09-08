@@ -1,94 +1,127 @@
-
-import { useEffect, useRef } from 'react';
-import avtar from '../assets/avrar.jpg';
+import { useEffect, useRef } from "react";
+import avtar from "../assets/avrar.jpg";
 import arrow from "../assets/arrow icon.jpg";
-import photo1 from '../assets/hazel.jpg';
-import { messagesDummyData } from '../assests';
-import { formatMessageTime } from '../library/utils';
-import galary from '../assets/galary icon1.png';
-import send from '../assets/sendmessage.png';
-import icom from '../assets/image.png';
+import { messagesDummyData } from "../assests";
+import { formatMessageTime } from "../library/utils";
+import galary from "../assets/galary icon1.png";
+import send from "../assets/sendmessage.png";
+import icom from "../assets/image.png";
+import { useNavigate } from "react-router-dom";
 
-const Chat = ({ selectedUser, setSelectedUser }) => {
+const Chat = ({ selectedUser, setSelectedUser,setShowRightSidebar }) => {
   const scrollEnd = useRef();
-
+    const navigate = useNavigate();
+  
+  // ================= SCROLL TO LAST MESSAGE =================
   useEffect(() => {
     if (scrollEnd.current) {
-      scrollEnd.current.scrollIntoView({ behavior: "smooth" });
+      scrollEnd.current.scrollIntoView({
+        behavior: "smooth",
+      });
     }
   }, [messagesDummyData, selectedUser]);
 
   return selectedUser ? (
     <div className="w-full h-full flex flex-col bg-white overflow-hidden">
+       <div
+  onClick={() => {
+    if (window.innerWidth < 768) {
+      setShowRightSidebar(true);
+    }
+  }}
+  className="
+    h-[72px]
+    flex items-center justify-between
+    px-4 sm:px-5
+    bg-white
+    border-b border-gray-200
+    transition-all duration-300
+    cursor-pointer
+    md:cursor-default
+  "
+>
+  {/* ================= USER INFO ================= */}
+  <div className="flex items-center gap-3 min-w-0">
 
-      {/* ================= HEADER ================= */}
-      <div className="
-        h-[72px]
-        flex items-center justify-between
-        px-5
-        bg-white
-        border-b border-gray-200
-        transition-all duration-300
-      ">
+    {/* Profile Image */}
+    <div className="relative group flex-shrink-0">
 
-        <div className="flex items-center gap-3">
+      <img
+        src={selectedUser.profilePic}
+        alt="profile"
+        className="
+          w-11 h-11
+          rounded-full
+          object-cover
+          border-2 border-white
+          shadow-sm
+          transition-all duration-300
+          group-hover:scale-105
+          group-hover:shadow-md
+        "
+      />
 
-          {/* Profile Image */}
-          <div className="relative group">
+      {/* Online / Offline Dot */}
+      <span
+        className={`
+          absolute
+          bottom-0
+          right-0
+          w-3.5
+          h-3.5
+          rounded-full
+          border-2
+          border-white
+          ${
+            selectedUser.isOnline
+              ? "bg-green-500"
+              : "bg-gray-400"
+          }
+        `}
+      ></span>
 
-            <img
-              src={photo1}
-              alt="profile"
-              className="
-                w-11 h-11
-                rounded-full
-                object-cover
-                border-2 border-white
-                shadow-sm
-                transition-all duration-300
-                group-hover:scale-105
-                group-hover:shadow-md
-              "
-            />
+    </div>
 
-            {/* Online dot */}
-            <span className="
-              absolute
-              bottom-0
-              right-0
-              w-3.5 h-3.5
-              bg-green-500
-              border-2 border-white
-              rounded-full
-            "></span>
+    {/* Name + Status */}
+    <div className="min-w-0">
 
-          </div>
+      <p
+        className="
+          font-semibold
+          text-gray-800
+          text-sm sm:text-base
+          truncate
+        "
+      >
+        {selectedUser.fullName}
+      </p>
 
-          {/* User Info */}
-          <div>
-            <p className="
-              font-semibold
-              text-gray-800
-              text-base
-              transition-colors duration-300
-              hover:text-blue-600
-            ">
-              Hazel
-            </p>
+      <p
+        className={`
+          text-xs
+          font-medium
+          ${
+            selectedUser.isOnline
+              ? "text-green-500"
+              : "text-gray-400"
+          }
+        `}
+      >
+        {selectedUser.isOnline
+          ? "Active now"
+          : "Offline"}
+      </p>
 
-            <p className="text-xs text-green-500 font-medium">
-              Active now
-            </p>
-          </div>
+    </div>
 
-        </div>
-
-        {/* Back Button */}
+  </div>
+        {/* ================= BACK BUTTON ================= */}
         <button
           onClick={() => setSelectedUser(null)}
           className="
             md:hidden
             w-9 h-9
+            flex-shrink-0
             rounded-full
             flex items-center justify-center
             hover:bg-gray-100
@@ -99,7 +132,10 @@ const Chat = ({ selectedUser, setSelectedUser }) => {
           <img
             src={arrow}
             alt="back"
-            className="w-5 h-5 object-contain"
+            className="
+              w-5 h-5
+              object-contain
+            "
           />
         </button>
 
@@ -107,20 +143,23 @@ const Chat = ({ selectedUser, setSelectedUser }) => {
 
 
       {/* ================= MESSAGES ================= */}
-      <div className="
-        flex-1
-        px-4 md:px-6
-        py-5
-        overflow-y-auto
-        bg-[#f8fafc]
-        space-y-4
-        scrollbar-thin
-        scrollbar-thumb-gray-300
-        scrollbar-track-transparent
-      ">
+      <div
+        className="
+          flex-1
+          px-3 sm:px-4 md:px-6
+          py-5
+          overflow-y-auto
+          bg-[#f8fafc]
+          space-y-4
+          scrollbar-thin
+          scrollbar-thumb-gray-300
+          scrollbar-track-transparent
+        "
+      >
 
         {messagesDummyData.map((msg, index) => {
 
+          // ================= CHECK MY MESSAGE =================
           const isMe =
             msg.senderId === "680f50e4f10f3cd28382ecf9";
 
@@ -132,30 +171,36 @@ const Chat = ({ selectedUser, setSelectedUser }) => {
                 items-end
                 gap-2.5
                 group
-                ${isMe ? "justify-end" : "justify-start"}
+                ${
+                  isMe
+                    ? "justify-end"
+                    : "justify-start"
+                }
               `}
             >
 
-              {/* Other User Avatar */}
+              {/* ================= OTHER USER AVATAR ================= */}
               {!isMe && (
                 <img
-                  src={photo1}
+                  src={selectedUser.profilePic}
                   alt=""
                   className="
                     w-8 h-8
                     rounded-full
                     object-cover
                     shadow-sm
+                    flex-shrink-0
                     transition-transform duration-300
                     group-hover:scale-105
                   "
                 />
               )}
 
-              {/* Message */}
+
+              {/* ================= IMAGE MESSAGE ================= */}
               {msg.image ? (
 
-                <div className="max-w-[260px]">
+                <div className="max-w-[220px] sm:max-w-[260px]">
 
                   <img
                     src={msg.image}
@@ -172,20 +217,29 @@ const Chat = ({ selectedUser, setSelectedUser }) => {
                     "
                   />
 
-                  <p className={`
-                    text-[10px]
-                    text-gray-400
-                    mt-1
-                    ${isMe ? "text-right" : "text-left"}
-                  `}>
-                    {formatMessageTime(msg.createdAt)}
+                  <p
+                    className={`
+                      text-[10px]
+                      text-gray-400
+                      mt-1
+                      ${
+                        isMe
+                          ? "text-right"
+                          : "text-left"
+                      }
+                    `}
+                  >
+                    {formatMessageTime(
+                      msg.createdAt
+                    )}
                   </p>
 
                 </div>
 
               ) : (
 
-                <div className="max-w-[75%] md:max-w-[60%]">
+                /* ================= TEXT MESSAGE ================= */
+                <div className="max-w-[78%] sm:max-w-[75%] md:max-w-[60%]">
 
                   <p
                     className={`
@@ -225,17 +279,24 @@ const Chat = ({ selectedUser, setSelectedUser }) => {
                       text-[10px]
                       text-gray-400
                       mt-1
-                      ${isMe ? "text-right" : "text-left"}
+                      ${
+                        isMe
+                          ? "text-right"
+                          : "text-left"
+                      }
                     `}
                   >
-                    {formatMessageTime(msg.createdAt)}
+                    {formatMessageTime(
+                      msg.createdAt
+                    )}
                   </p>
 
                 </div>
 
               )}
 
-              {/* My Avatar */}
+
+              {/* ================= MY AVATAR ================= */}
               {isMe && (
                 <img
                   src={avtar}
@@ -245,6 +306,7 @@ const Chat = ({ selectedUser, setSelectedUser }) => {
                     rounded-full
                     object-cover
                     shadow-sm
+                    flex-shrink-0
                     transition-transform duration-300
                     group-hover:scale-105
                   "
@@ -255,41 +317,49 @@ const Chat = ({ selectedUser, setSelectedUser }) => {
           );
         })}
 
+        {/* Scroll Reference */}
         <div ref={scrollEnd}></div>
 
       </div>
 
 
       {/* ================= MESSAGE INPUT ================= */}
-      <div className="
-        px-4
-        py-3
-        bg-white
-        border-t border-gray-200
-      ">
+      <div
+        className="
+          relative
+          px-3 sm:px-4
+          py-3
+          bg-white
+          border-t border-gray-200
+        "
+      >
 
-        <div className="
-          flex
-          items-center
-          gap-2
-          bg-gray-100
-          rounded-full
-          px-4
-          py-1.5
-          border border-transparent
-          transition-all duration-300
-          focus-within:bg-white
-          focus-within:border-blue-400
-          focus-within:ring-2
-          focus-within:ring-blue-100
-        ">
+        <div
+          className="
+            flex
+            items-center
+            gap-2
+            bg-gray-100
+            rounded-full
+            px-4
+            py-1.5
+            pr-14
+            border border-transparent
+            transition-all duration-300
+            focus-within:bg-white
+            focus-within:border-blue-400
+            focus-within:ring-2
+            focus-within:ring-blue-100
+          "
+        >
 
-          {/* Input */}
+          {/* ================= INPUT ================= */}
           <input
             type="text"
             placeholder="Write a message..."
             className="
               flex-1
+              min-w-0
               bg-transparent
               outline-none
               text-sm
@@ -299,7 +369,8 @@ const Chat = ({ selectedUser, setSelectedUser }) => {
             "
           />
 
-          {/* Gallery */}
+
+          {/* ================= IMAGE INPUT ================= */}
           <input
             type="file"
             id="image"
@@ -311,6 +382,7 @@ const Chat = ({ selectedUser, setSelectedUser }) => {
             htmlFor="image"
             className="
               w-9 h-9
+              flex-shrink-0
               rounded-full
               flex items-center
               justify-center
@@ -324,17 +396,25 @@ const Chat = ({ selectedUser, setSelectedUser }) => {
             <img
               src={galary}
               alt="gallery"
-              className="w-5 h-5 object-contain opacity-70"
+              className="
+                w-5 h-5
+                object-contain
+                opacity-70
+              "
             />
+            <button className="text-[10px]">Voice</button>
           </label>
 
         </div>
 
-        {/* Send Button */}
+
+        {/* ================= SEND BUTTON ================= */}
+
         <button
+          type="button"
           className="
             absolute
-            right-7
+            right-5
             bottom-4
             w-11 h-11
             rounded-full
@@ -353,10 +433,8 @@ const Chat = ({ selectedUser, setSelectedUser }) => {
             src={send}
             alt="send"
             className="
-              w-5 h-5
+              w-5 h-5 
               object-contain
-              transition-transform duration-300
-              group-hover:translate-x-0.5
             "
           />
         </button>
@@ -367,36 +445,40 @@ const Chat = ({ selectedUser, setSelectedUser }) => {
   ) : (
 
     /* ================= EMPTY CHAT ================= */
-    <div className="
-      w-full
-      h-full
-      flex
-      flex-col
-      items-center
-      justify-center
-      bg-[#f8fafc]
-      px-6
-      text-center
-    ">
+    <div
+      className="
+        w-full
+        h-full
+        flex
+        flex-col
+        items-center
+        justify-center
+        bg-[#f8fafc]
+        px-6
+        text-center
+      "
+    >
 
-      <div className="
-        w-28 h-28
-        rounded-full
-        bg-white
-        flex items-center justify-center
-        shadow-sm
-        border border-gray-100
-        mb-5
-        transition-all duration-500
-        hover:scale-105
-        hover:shadow-md
-      ">
+      <div
+        className="
+          w-24 h-24 sm:w-28 sm:h-28
+          rounded-full
+          bg-white
+          flex items-center justify-center
+          shadow-sm
+          border border-gray-100
+          mb-5
+          transition-all duration-500
+          hover:scale-105
+          hover:shadow-md
+        "
+      >
 
         <img
           src={icom}
           alt=""
           className="
-            w-20 h-20
+            w-16 h-16 sm:w-20 sm:h-20
             object-contain
             transition-transform duration-500
             hover:scale-110
@@ -405,22 +487,29 @@ const Chat = ({ selectedUser, setSelectedUser }) => {
 
       </div>
 
-      <h2 className="
-        text-xl
-        font-semibold
-        text-gray-800
-        mb-2
-      ">
+
+      <h2
+        className="
+          text-lg sm:text-xl
+          font-semibold
+          text-gray-800
+          mb-2
+        "
+      >
         Welcome to WebChat
       </h2>
 
-      <p className="
-        text-sm
-        text-gray-500
-        max-w-sm
-        leading-relaxed
-      ">
-        Select a conversation from the sidebar to start chatting with your friends.
+
+      <p
+        className="
+          text-sm
+          text-gray-500
+          max-w-sm
+          leading-relaxed
+        "
+      >
+        Select a conversation from the sidebar
+        to start chatting with your friends.
       </p>
 
     </div>
@@ -428,4 +517,3 @@ const Chat = ({ selectedUser, setSelectedUser }) => {
 };
 
 export default Chat;
-

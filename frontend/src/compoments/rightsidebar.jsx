@@ -59,6 +59,20 @@ const Rightsidebar = ({ selectedUser }) => {
         >
           {selectedUser.fullName}
         </h1>
+        {/*gmail*/}
+            <h1
+          className="
+            mt-[0px]
+            text-[18px]
+            font-semibold
+            text-gray-800
+            transition-colors duration-300
+            hover:text-blue-600
+          "
+        >
+          {selectedUser.email}
+        </h1>
+
 
         {/* Status */}
         <p className="text-xs text-green-500 font-medium mt-1">
@@ -169,7 +183,7 @@ const Rightsidebar = ({ selectedUser }) => {
             transition-all duration-300
           "
         >
-          Logout
+          Logout YourSelf
         </button>
 
       </div>

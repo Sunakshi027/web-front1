@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import Rightsidebar from './rightsidebar';
 import logo from "../assets/image.png";
 import menu from '../assets/menu.png';
 import search from "../assets/searchbar11.webp";
@@ -30,11 +30,12 @@ const Sidebar = ({ selectedUser, setSelectedUser }) => {
       ">
 
         {/* Logo */}
-        <img
+       <div className=''>
+         <img
           src={logo}
           alt="logo"
           className="
-            w-20
+            w-23
             h-auto
             object-contain
             transition-transform duration-300
@@ -42,11 +43,14 @@ const Sidebar = ({ selectedUser, setSelectedUser }) => {
           "
         />
 
+        <h4 className='text-[20px] font-bold text-center text-gray-600'>Chats</h4>
+       </div>
+         
         {/* Menu */}
         <div className="relative group">
 
           <button className="
-            w-9 h-9
+            w-12 h-12
             rounded-full
             flex items-center justify-center
             bg-gray-100
@@ -57,7 +61,7 @@ const Sidebar = ({ selectedUser, setSelectedUser }) => {
             <img
               src={menu}
               alt="menu"
-              className="w-5 h-5 object-contain"
+              className="w-8 h-8 object-contain"
             />
           </button>
 
@@ -188,7 +192,7 @@ const Sidebar = ({ selectedUser, setSelectedUser }) => {
           tracking-wider
           text-gray-400
         ">
-          Messages
+          Users
         </p>
 
         <div className="flex flex-col gap-1">
@@ -196,7 +200,7 @@ const Sidebar = ({ selectedUser, setSelectedUser }) => {
           {userDummyData.map((user, index) => {
 
             const isSelected = selectedUser?.id === user.id;
-            const isOnline = index < 3;
+            const isOnline = index < 4;
 
             return (
 
@@ -256,8 +260,8 @@ const Sidebar = ({ selectedUser, setSelectedUser }) => {
                     src={user.profilePic || avtar}
                     alt="avatar"
                     className={`
-                      w-11
-                      h-11
+                      w-14
+                      h-14
                       rounded-full
                       object-cover
                       transition-all
@@ -317,13 +321,19 @@ const Sidebar = ({ selectedUser, setSelectedUser }) => {
                       {user.fullName}
                     </p>
 
-                    <span className="
+                  <div className='flex flex-col'>
+                        <span className="
                       text-[10px]
                       text-gray-400
                       flex-shrink-0
                     ">
                       10:30
                     </span>
+                    <span className="text-[11px] text-gray-500 font-medium">
+  {user.unread}
+</span>
+                    </div>
+                    
 
                   </div>
 

@@ -13,6 +13,8 @@ export const userDummyData = [
     email: "alison@gmail.com",
     profilePic: profile1,
     bio: "Frontend Developer",
+    isOnline: true,
+    unread:3,
   },
   {
     _id: "2",
@@ -20,6 +22,9 @@ export const userDummyData = [
     email: "marco@gmail.com",
     profilePic: profile2,
     bio: "Backend Developer",
+    isOnline: true,
+    unread:6,
+
   },
   {
     _id: "3",
@@ -27,6 +32,9 @@ export const userDummyData = [
     email: "marco@gmail.com",
     profilePic: profile3,
     bio: "Backend Developer",
+    isOnline: true,
+    unread:"",
+
   },
   {
     _id: "4",
@@ -34,6 +42,9 @@ export const userDummyData = [
     email: "marco@gmail.com",
     profilePic: profile4,
     bio: "Backend Developer",
+    isOnline: false,
+    unread:3,
+
   },
   {
     _id: "5",
@@ -41,6 +52,29 @@ export const userDummyData = [
     email: "marco@gmail.com",
     profilePic: profile5,
     bio: "Backend Developer",
+    isOnline: false,
+        unread:3,
+
+  },
+   {
+    _id: "6",
+    fullName: "Sunakshi",
+    email: "sunakshi@gmail.com",
+    profilePic: "",
+    bio: "Mernstack Developer",
+    isOnline: true,
+        unread:3,
+
+  },
+    {
+    _id: "7",
+    fullName: "Vinay",
+    email: "vinay@gmail.com",
+    profilePic: "",
+    bio: "Backend Developer",
+    isOnline: false,
+        unread:3,
+
   },
 ];
 

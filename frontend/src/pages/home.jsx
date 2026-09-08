@@ -7,6 +7,8 @@ import { authCheck } from "./auth";
 
 const Home = () => {
   const [selectedUser, setSelectedUser] = useState(null);
+  const [showRightSidebar, setShowRightSidebar] = useState(true);
+
   const navigate = useNavigate();
 
   // 🔐 AUTH CHECK
@@ -75,10 +77,11 @@ const Home = () => {
             ${selectedUser ? "block" : "hidden md:block"}
           `}
         >
-          <Chat
-            selectedUser={selectedUser}
-            setSelectedUser={setSelectedUser}
-          />
+         <Chat
+  selectedUser={selectedUser}
+  setSelectedUser={setSelectedUser}
+  setShowRightSidebar={setShowRightSidebar}
+/>
         </div>
 
 
@@ -95,10 +98,11 @@ const Home = () => {
               min-w-0
             "
           >
-            <Rightsidebar
-              selectedUser={selectedUser}
-              setSelectedUser={setSelectedUser}
-            />
+           {showRightSidebar && (
+  <Rightsidebar
+    selectedUser={selectedUser}
+  />
+)}
           </div>
         )}
 
